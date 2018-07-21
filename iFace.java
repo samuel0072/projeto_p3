@@ -232,7 +232,7 @@ public class iFace {
 
     public static int search_community__by_name(String target) {
         for(int i = 0; i < 100; i++) {
-            if( (community_name[i]!= null) && (target.equals(network_name[i])) ) {
+            if( (community_name[i]!= null) && (target.equals(community_name[i])) ) {
                 return i;
             }
         }
@@ -256,8 +256,8 @@ public class iFace {
         create_account( "Alvaro", "alvaro", "alvaro123");
         create_account( "Ana", "ana", "ana123");
         create_account( "Bruno","bruno", "bruno123");
-        create_account( "Carlos", "carlos", "carlosW98");
-        create_account( "Eric", "Eric", "eric3119");
+        create_account( "Carlos", "carlos", "carlosW1998");
+        create_account( "Eric", "eric", "eric3119");
         create_account( "Everton", "everton", "eveton123");
         create_account( "Gabriel", "gabriel", "gabriel123");
         create_account( "Hugo", "hugo", "hugo123");
@@ -297,6 +297,9 @@ public class iFace {
         //create_community_test ();
         //send_messages_community_test();
         //add_member_test();
+        //edit_test();
+        //remove_test();
+        recovery_test();
 
     }
 
@@ -545,15 +548,135 @@ public class iFace {
         for(i = 0; i < 100; i++)
         {
             if(community_name[i]!= null){
-                System.out.print("Memebros da comunidade "+community_name[i]+": ");
+                System.out.print("Membros da comunidade "+community_name[i]+": ");
                 for(j = 0; j < 100; j++){
                     if(community[i][j] == 1){
-                        System.out.print(network_name[community[i][j]]+", ");
+                        System.out.print(network_name[j]+", ");
                     }
                 }
             }
             System.out.println();
 
+        }
+    }
+
+    public static void edit_test(){
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String father_n, mother_n, birth_n, name, login, password;
+            System.out.println("digite o nome do pai:");
+            father_n = reader.nextLine();
+            System.out.println("digite o nome da mae:");
+            mother_n = reader.nextLine();
+            System.out.println("digite o aniversario:");
+            birth_n = reader.nextLine();
+            System.out.println("digite o login:");
+            login = reader.nextLine();
+            System.out.println("digite o nome:");
+            name = reader.nextLine();
+            System.out.println("digite a senha:");
+            password = reader.nextLine();
+
+            int c = search_by_name(name);
+            if(c!= -1){
+                edit(c, name, password, login, birth_n, mother_n, father_n);
+                print_user(c);
+            }
+            else{
+                System.out.println("voce digitou alguma coisa errada");
+            }
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+
+        }while(d != 2);
+    }
+
+
+    public static void  print_user(int target){
+        System.out.println(network_name[target]);
+        System.out.println(network_login[target]);
+        System.out.println(network_password[target]);
+        System.out.println(mother[target]);
+        System.out.println(father[target]);
+        System.out.println(birthday[target]);
+
+        int j;
+        System.out.println("amigos de :"+network_name[target]);
+        for(j = 0; j < 100; j++){
+                if((network[target][j] == 1) && (network_name[j]!= null)){
+                    System.out.print(network_name[j]+", ");
+                }
+                System.out.println();
+        }
+    }
+
+    public static void remove_test(){
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name;
+            System.out.println("Digite o nome do usuario que deseja remover:");
+            name = reader.nextLine();
+            int c = search_by_name(name);
+            if(c!= -1){
+                delete_user(c);
+            }
+            else
+            {
+                System.out.println("Voce digitou o nome errado!");
+
+            }
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt();
+
+        }while(d != 2);
+
+        System.out.println("Banco de dados do iFace:\n");
+
+        for(i = 0; i < 100; i++) {
+            if ( network_name[i]!= null ) {
+                System.out.println("\t"+(i+1)+" : "+ network_name[i]);
+            }
+        }
+    }
+
+    public static void recovery_test(){
+        int d, i, j;
+        remove_test();
+        /*int a = search_by_name("Carlos");
+        delete_user(a);*/
+        reader.nextLine();
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        System.out.println("Banco de dados do iFace:\n");
+
+        for(i = 0; i < 100; i++) {
+            if ( network_name[i]!= null ) {
+                System.out.println("\t"+(i+1)+" : "+ network_name[i]);
+            }
+        }
+        do {
+            String login, password;
+            System.out.println("Digite o login do user que vc quer recuperar os dados");
+            login = reader.nextLine();
+            System.out.println("Digite a senha do user que vc quer recuperar os dados");
+            password = reader.nextLine();
+            recovery_account(login, password);
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt();
+        }while(d != 2);
+
+        System.out.println("Banco de dados do iFace:\n");
+
+        for(i = 0; i < 100; i++) {
+            if ( network_name[i]!= null ) {
+                System.out.println("\t"+(i+1)+" : "+ network_name[i]);
+            }
         }
     }
 }
