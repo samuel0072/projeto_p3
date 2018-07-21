@@ -285,6 +285,7 @@ public class iFace {
         create_account( "Victor H", "victor", "victorh123");
         create_account( "Victor M", "victor", "victorm123");
         create_account( "Baldoino", "ehsoprintf", "baldu");
+        create_account( "aurelio", "123", "au");
 
         int index_b = search_by_name ("Baldoino"), index_s = search_by_name ( "Samuel" );
         create_community ( "iFarra", "uma festa realizada para os alunos de p3", index_b );
@@ -298,8 +299,8 @@ public class iFace {
         //send_messages_community_test();
         //add_member_test();
         //edit_test();
-        //remove_test();
-        recovery_test();
+        remove_test();
+        //recovery_test();
 
     }
 
@@ -421,6 +422,21 @@ public class iFace {
                     if(network_messages_sent[i][j]!= null)
                     {
                         System.out.print("\'"+network_messages_sent[i][j]+"\', ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+        for(i = 0; i < 100; i++)
+        {
+            if(network_name[i]!= null)
+            {
+                System.out.print(network_name[i]+"Recebeu: ");
+                for(j = 0; j < 100; j++)
+                {
+                    if(network_messages_received[i][j]!= null)
+                    {
+                        System.out.print("\'"+network_messages_received[i][j]+"\', ");
                     }
                 }
                 System.out.println();
