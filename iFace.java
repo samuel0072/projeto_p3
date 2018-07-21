@@ -86,7 +86,7 @@ public class iFace {
     }
 
     public static void edit(int target, String new_name, String new_password, String new_login, String new_birthday,
-                     String new_mother, String new_father) {
+                            String new_mother, String new_father) {
         if(!"".equals(new_name))
         {
             network_name = clear_string(target, network_name);
@@ -295,6 +295,8 @@ public class iFace {
         //create_account_test ();
         //send_messages_test();
         //create_community_test ();
+        //send_messages_community_test();
+        //add_member_test();
 
     }
 
@@ -461,5 +463,97 @@ public class iFace {
         }
 
 
+    }
+
+    public static void send_messages_community_test()
+    {
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name1, community, message;
+            System.out.println("Digite o nome de quem vai enviar a mensagem:");
+            name1 = reader.nextLine();
+            System.out.println("Digite o nome da comunidade que vai enviar a mensagem:");
+            community = reader.nextLine();
+
+            int s, r;
+            s = search_by_name ( name1 );
+            r = search_community__by_name ( community );
+
+            if(s!= -1 && r != -1)
+            {
+                System.out.println("Digite a mensagem:");
+                message = reader.nextLine();
+                massege_to_community(s, r, message);
+            }
+            else
+            {
+                System.out.println("Voce digitou algum nome errado!");
+            }
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d != 2);
+
+        for(i = 0; i < 100; i++)
+        {
+            if(community_name[i]!= null){
+                System.out.print("Mensagens da comunidade "+community_name[i]+" :");
+                for(j = 0; j < 100; j++)
+                {
+                    if(community_messages[i][j] != null){
+                        System.out.print(" "+community_messages[i][j]+", ");
+                    }
+                }
+            }
+        }
+
+    }
+    public static void add_member_test()
+    {
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name1, name2,community,  message;
+            System.out.println("Digite o nome da comunidade");
+            community = reader.nextLine();
+            System.out.println("Digite o nome do admin:");
+            name1 = reader.nextLine();
+            System.out.println("Digite o nome do usuario que deseja adicionar");
+            name2 = reader.nextLine();
+
+            int s, r, c;
+            s = search_by_name ( name1 );
+            c = search_community__by_name ( community );
+            r = search_by_name(name2);
+
+            if(s!= -1 && r != -1 && c!= -1)
+            {
+                add_member(s, r, c);
+            }
+            else
+            {
+                System.out.println("Voce digitou algum nome errado!");
+            }
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d != 2);
+
+        for(i = 0; i < 100; i++)
+        {
+            if(community_name[i]!= null){
+                System.out.print("Memebros da comunidade "+community_name[i]+": ");
+                for(j = 0; j < 100; j++){
+                    if(community[i][j] == 1){
+                        System.out.print(network_name[community[i][j]]+", ");
+                    }
+                }
+            }
+            System.out.println();
+
+        }
     }
 }
