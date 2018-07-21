@@ -1,46 +1,53 @@
+import java.util.Scanner;
+
 public class iFace {
 
-    int[][] network                      = new int[100][100];
-    int[] size_messages_received         = new int[100];
-    int[] size_messages_sent             = new int[100];
-    String[] network_name                = new String[100];
-    String[] network_login               = new String[100];
-    String[] network_password            = new String[100];
-    String[][] network_messages_received = new String[100][100];
-    String[][] network_messages_sent     = new String[100][100];
-    String[] birthday                    = new String[100];
-    String[] mother                      = new String[100];
-    String[] father                      = new String[100];
+    static Scanner reader = new Scanner ( System.in );
 
-    int actual_size = 0;
+    static int[][] network                      = new int[100][100];
+    static int[] size_messages_received         = new int[100];
+    static int[] size_messages_sent             = new int[100];
+    static String[] network_name                = new String[100];
+    static String[] network_login               = new String[100];
+    static String[] network_password            = new String[100];
+    static String[][] network_messages_received = new String[100][100];
+    static String[][] network_messages_sent     = new String[100][100];
+    static String[] birthday                    = new String[100];
+    static String[] mother                      = new String[100];
+    static String[] father                      = new String[100];
+
+    static int actual_size = 0;
 
     /*Variables about the bucket*/
 
-    int size_bucket = 0;
-    String[] bucket_name                = new String[50];
-    String[] bucket_login               = new String[50];
-    String[] bucket_password            = new String[50];
-    int[][] bucket_friends              = new int[50][50];
-    String[][] bucket_masseges_sent     = new String[50][50];
-    String[][] bucket_masseges_received = new String[50][50];
+    static int size_bucket = 0;
+    static String[] bucket_name                = new String[50];
+    static String[] bucket_login               = new String[50];
+    static String[] bucket_password            = new String[50];
+    static int[][] bucket_friends              = new int[50][50];
+    static String[][] bucket_masseges_sent     = new String[50][50];
+    static String[][] bucket_masseges_received = new String[50][50];
 
     /*Variables about the communities*/
-    int[][] community  = new int[100][100];
-    String[] community_name = new String[100];
-    int[] community_owner = new int[100];
-    String[] community_description = new String[100];
-
+    static int[][] community              = new int[100][100];
+    static String[] community_name        = new String[100];
+    static int[] community_owner          = new int[100];
+    static String[] community_description = new String[100];
+    static String[][] community_messages  = new String[100][100];
+    static int[] size_messages_community  = new int[100];
 
 
     public static void main(String Args[]) {
-
+        test ();
+        //String a = reader.nextLine ();
+        //System.out.println ( a );
     }
 
-    public void add_friends(int target, int sender) {
+    public static void add_friends(int target, int sender) {
         network[target][sender] = 2;
     }
 
-    public void create_account( String name, String password, String login) {
+    public static void create_account( String name, String password, String login) {
         if(actual_size < 100) {
             int i;
             for(i = 0; i < 100; i++) {
@@ -60,16 +67,16 @@ public class iFace {
         }
     }
 
-    public void send_messages(String message, int i_target, int i_sender) {
+    public static void send_messages(String message, int i_target, int i_sender) {
 
-        String complete_massege1 = "You have a new message from: "+network_name[i_sender]+":\n"+message;
+        String complete_massege1 = "You have a new message:\n"+message+"\nmessage sent by: "+network_name[i_sender];
         String complete_massege2 = "You have sent a new message to:"+network_name[i_target]+":\n"+message;
 
         network_messages_received[i_target][(size_messages_received[i_target]++)%100] = complete_massege1;
         network_messages_sent[i_sender][(size_messages_sent[i_sender]++)%100]         = complete_massege2;
     }
 
-    public int search_by_name(String target) {
+    public static int search_by_name(String target) {
         for(int i = 0; i < 100; i++) {
             if( (network_name[i]!= null) && (target.equals(network_name[i])) ) {
                 return i;
@@ -78,7 +85,7 @@ public class iFace {
         return -1;//User not found
     }
 
-    public void edit(int target, String new_name, String new_password, String new_login, String new_birthday,
+    public static void edit(int target, String new_name, String new_password, String new_login, String new_birthday,
                      String new_mother, String new_father) {
         if(!"".equals(new_name))
         {
@@ -125,7 +132,7 @@ public class iFace {
         return new_string_vector;
     }
 
-    public void delete_user(int target) {
+    public static void delete_user(int target) {
         go_to_bucket ( target );
         birthday = clear_string(target, birthday);
         mother =  clear_string(target, mother);
@@ -149,7 +156,7 @@ public class iFace {
         }
     }
 
-    public void go_to_bucket(int target) {
+    public static void go_to_bucket(int target) {
         bucket_name[ size_bucket%50 ] = network_name[ target ];
         bucket_login[ size_bucket%50 ] = network_login[ target ];
         bucket_password[ size_bucket%50 ] = network_password[ target ];
@@ -159,7 +166,7 @@ public class iFace {
         size_bucket++;
     }
 
-    public void recovery_account(String login, String password) {
+    public static void recovery_account(String login, String password) {
         int i;
 
         for(i = 0; i < 50; i++) {
@@ -192,7 +199,7 @@ public class iFace {
         }
     }
 
-    public void create_community(String name, String description, int owner) {
+    public static void create_community(String name, String description, int owner) {
         int i;
         for (i = 0; i < 100; i++) {
             if(community_name[i] == null)
@@ -211,7 +218,7 @@ public class iFace {
         }
     }
 
-    public void add_member(int owner, int member, int commu)
+    public static void add_member(int owner, int member, int commu)
     {
         if(community_owner[commu] == owner)
         {
@@ -223,12 +230,236 @@ public class iFace {
         }
     }
 
-    public int search_community__by_name(String target) {
+    public static int search_community__by_name(String target) {
         for(int i = 0; i < 100; i++) {
             if( (community_name[i]!= null) && (target.equals(network_name[i])) ) {
                 return i;
             }
         }
         return -1;//Community not found
+    }
+
+    public static void massege_to_community(int sender_index, int community_index, String message)
+    {
+        String complete_message = "The user: "+network_name[sender_index]+" sent:\n"+message;
+        community_messages[community_index][size_messages_community[community_index]%100] = complete_message;
+        size_messages_community[community_index]++;
+    }
+
+    public static void test()
+    {
+        /*Descomente os teste que deseja fazer usando essa funcao*/
+
+        //Inserindo dados
+        create_account( "Samuel", "samuel", "samuel0072");
+        create_account( "Allef", "alef", "alef123");
+        create_account( "Alvaro", "alvaro", "alvaro123");
+        create_account( "Ana", "ana", "ana123");
+        create_account( "Bruno","bruno", "bruno123");
+        create_account( "Carlos", "carlos", "carlosW98");
+        create_account( "Eric", "Eric", "eric3119");
+        create_account( "Everton", "everton", "eveton123");
+        create_account( "Gabriel", "gabriel", "gabriel123");
+        create_account( "Hugo", "hugo", "hugo123");
+        create_account( "Jadson", "jadson", "crislanzinho");
+        create_account( "John", "john", "john123");
+        create_account( "Jonas", "jonas", "jonas123");
+        create_account( "Augusto", "augusto", "augusto123");
+        create_account( "Lucas", "lucas", "lucas123");
+        create_account( "Marcelo C", "marcelo", "marceloc123");
+        create_account( "Marcelo O", "marcelo", "marceloo123");
+        create_account( "Matheus", "matheus", "matheus123");
+        create_account( "Nicholas", "nicholas", "nicholas123");
+        create_account( "Paulo", "paulo", "paulo123");
+        create_account( "Pedro M", "pedro", "pedrom123");
+        create_account( "Pedro V", "pedro", "pedrov123");
+        create_account( "Phyllipe", "phyllipe", "phyllipe123");
+        create_account( "Rafael", "rafael", "rafael123");
+        create_account( "Raissa", "raissa", "raissa123");
+        create_account( "Raul", "raul", "raul123");
+        create_account( "Thiago C", "thiago", "thiagoc123");
+        create_account( "Thiago J", "thiago", "thiagoj123");
+        create_account( "Thiago P", "thiago", "thiagop123");
+        create_account( "Thiago T", "thiago", "thiagot123");
+        create_account( "Valerio", "valerio", "valerio123");
+        create_account( "Victor H", "victor", "victorh123");
+        create_account( "Victor M", "victor", "victorm123");
+        create_account( "Baldoino", "ehsoprintf", "baldu");
+
+        int index_b = search_by_name ("Baldoino"), index_s = search_by_name ( "Samuel" );
+        create_community ( "iFarra", "uma festa realizada para os alunos de p3", index_b );
+        create_community ( "aprenderOO", "Bora aprender OO", index_s);
+
+        //Testes
+        //add_friends_test ();
+        //create_account_test ();
+        //send_messages_test();
+        //create_community_test ();
+
+    }
+
+    public static void add_friends_test()
+    {
+        int i,j, s ,d;
+        System.out.println("Banco de dados do iFace:\n");
+
+        for(i = 0; i < 100; i++) {
+            if ( network_name[i]!= null ) {
+                System.out.println("\t"+(i+1)+" : "+ network_name[i]);
+            }
+        }
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do
+        {
+            String sender, target;
+
+            System.out.println("Digite o nome de quem deseja enviar o convite de amizade:");
+            sender = reader.next (  );
+
+            System.out.println("Digite o nome de quem vai receber o pedido de amizade!");
+            target = reader.next();
+
+            s = search_by_name ( sender );
+            d = search_by_name ( target );
+
+            if((s != -1) && (d != -1)){
+                add_friends ( d, s );
+            }
+            else{
+                System.out.println("Algum nome foi digitado errado!");
+            }
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d!=2);
+        for(i = 0; i < 100; i++) {
+            if(network_name[i]!= null)
+            {
+                System.out.print(network_name[i]+" Tem solicitacoes pendentes de: ");
+                for(j = 0; j < 100; j++)
+                {
+                    if(network[i][j] == 2)
+                    {
+                        System.out.print(network_name[j]+" ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    public static void create_account_test()
+    {
+        int d, i;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name, login, password;
+            System.out.println("Digite o nome:");
+            name = reader.next (  );
+            System.out.println("Digite o login:");
+            login = reader.next ();
+            System.out.println("Digite a senha");
+            password = reader.next();
+            create_account( name, password, login );
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d != 2);
+
+        System.out.println("Banco de dados do iFace:\n");
+
+        for(i = 0; i < 100; i++) {
+            if ( network_name[i]!= null ) {
+                System.out.println("\t"+(i+1)+" : "+ network_name[i]);
+            }
+        }
+    }
+
+    public static void send_messages_test()
+    {
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name1, name2, message;
+            System.out.println("Digite o nome de quem vai enviar a mensagem:");
+            name1 = reader.nextLine();
+            System.out.println("Digite o nome de quem vai receber a mensagem:");
+            name2 = reader.nextLine();
+
+            int s, r;
+            s = search_by_name ( name1 );
+            r = search_by_name ( name2 );
+
+            if(s!= -1 && r != -1)
+            {
+                System.out.println("Digite a mensagem:");
+                message = reader.nextLine();
+                send_messages(message, r, s);
+            }
+            else
+            {
+                System.out.println("Voce digitou algum nome errado!");
+            }
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d != 2);
+
+        for(i = 0; i < 100; i++)
+        {
+            if(network_name[i]!= null)
+            {
+                System.out.print(network_name[i]+"Enviou: ");
+                for(j = 0; j < 100; j++)
+                {
+                    if(network_messages_sent[i][j]!= null)
+                    {
+                        System.out.print("\'"+network_messages_sent[i][j]+"\', ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    public static void create_community_test()
+    {
+        int d, i, j;
+        System.out.println("Digite crtl+ f4 finalizar a qualquer momento!");
+
+        do {
+            String name, description, owner;
+            int index_owner;
+            System.out.println("Digite o nome da comunidade:");
+            name = reader.nextLine();
+            System.out.println("Digite a descricao:");
+            description = reader.nextLine();
+            System.out.println("Digite o nome do dono:");
+            owner = reader.nextLine();
+
+            index_owner = search_by_name( owner );
+            if(index_owner!= -1)
+            {
+                create_community( name, description, index_owner );
+            }
+            else
+            {
+                System.out.println("voce digitou o nome do dono errado!");
+            }
+
+            System.out.println("Continuar? 1 - sim \t2 - nao");
+            d = reader.nextInt ();
+        }while(d != 2);
+        System.out.println("Banco de dados do iFace(comunidades):");
+        for(i = 0; i < 100; i++)
+        {
+            if(community_name[i]!= null)
+            {
+                System.out.println("\t"+community_name[i]+", "+community_description[i]+", "+network_name[community_owner[i]]);
+            }
+        }
+
+
     }
 }
